@@ -3,7 +3,7 @@ from pickle import dump, load
 from pygame.locals import *
 from Create_block import Block
 from Create_ball import Ball
-from Create_Platform import Platform
+from Create_platform import Platform
 from Functions import close_arkanoid, get_mouse_x, get_mouse_y, load_theme, f_write_score
 import os
 import pygame
