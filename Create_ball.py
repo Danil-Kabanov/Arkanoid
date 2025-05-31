@@ -1,9 +1,10 @@
+from math import radians, sin, cos
 import pygame
 import os
-import math
 
 
 pygame.init()
+bounce = pygame.mixer.Sound(os.path.join("audio", "sounds", "bounce.wav"))
 
 
 class Ball(pygame.sprite.Sprite):
@@ -14,44 +15,42 @@ class Ball(pygame.sprite.Sprite):
     direction = 0
     width = 20
     height = 20
-    bounce = pygame.mixer.Sound(os.path.join("audio", "sounds", "bounce.wav"))
 
-    def __init__(self):
+    def __init__(self):  # Создание мячика
         super().__init__()
-        self.image = pygame.image.load(os.path.join("image", "ball", "ballframe1.png"))
-
+        self.image = pygame.image.load(os.path.join("images", "ball", "ballframe1.png"))
         self.rect = self.image.get_rect()
         self.screenheight = pygame.display.get_surface().get_height()
         self.screenwidth = pygame.display.get_surface().get_width()
 
-    def horizontal_bounce(self, bounce, d=0):
+    def bounce(self, d):  # Горизонтальный отскок мячика
         self.direction = (180 - self.direction) % 360
         self.direction -= d
         bounce.play()
 
-    def vertical_bounce(self, bounce):
+    def vertical_bounce(self):  # Вертикальный отскок мячика
         self.direction = (360 - self.direction) % 360
         bounce.play()
 
-    def update(self):
-        if self.direction <= 0:
+    def update(self):  # Движение мячика
+        if self.direction < 0:
             self.direction += 360
         if self.direction >= 360:
             self.direction -= 360
-        direction_radians = math.radians(self.direction)
-        self.x += self.speed * math.sin(direction_radians)
-        self.y += self.speed * math.cos(direction_radians)
+        direction_radians = radians(self.direction)
+        self.x += self.speed * sin(direction_radians)
+        self.y -= self.speed * cos(direction_radians)
         self.rect.x = self.x
         self.rect.y = self.y
         if self.y <= 0:
-            self.horizontal_bounce(pygame.mixer.Sound(os.path.join("audio", "sounds", "bounce.wav")))
+            self.bounce(0)
             self.y = 1
         if self.x <= 0:
-            self.vertical_bounce(pygame.mixer.Sound(os.path.join("audio", "sounds", "bounce.wav")))
+            self.vertical_bounce()
             self.x = 1
         if self.x > self.screenwidth - self.width:
-            self.vertical_bounce(pygame.mixer.Sound(os.path.join("audio", "sounds", "bounce.wav")))
-            self.x = self.screenwidth - self.width
+            self.vertical_bounce()
+            self.x = self.screenwidth - self.width - 1
         if self.y > 600:
             return True
         else:
