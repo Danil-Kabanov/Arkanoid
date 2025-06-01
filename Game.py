@@ -345,7 +345,7 @@ def settings():  # Функция, отвечающая за настройки
         item5,          \
         item6,          \
         ext_settings_opened
-     settings_opened:
+    while settings_opened:
         if speedup:
             screen.blit(x_text, xpos)
         fog.set_alpha(200)
