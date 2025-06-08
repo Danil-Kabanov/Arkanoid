@@ -1,11 +1,10 @@
 from random import randint
 from pygame.locals import *
-from Functions import get_mouse_x
 import pygame
 import os
 
 
-movemode = False
+movemode = True
 
 
 class Platform(pygame.sprite.Sprite):
@@ -22,14 +21,17 @@ class Platform(pygame.sprite.Sprite):
         self.rect.y = self.screenheight - self.height - 5
         self.movemode = 0
 
-    def update(self):  # Движение ракетки
+    def update(self):  # Движение платформы
         if pygame.key.get_pressed()[K_UP] or pygame.key.get_pressed()[K_w]:
             if self.rect.y > 450:
                 self.rect.y -= 2
         if pygame.key.get_pressed()[K_DOWN] or pygame.key.get_pressed()[K_s]:
             if self.rect.y < 580:
                 self.rect.y += 2
-        # Управление платформой мышью
-        self.rect.x = get_mouse_x()
-        if self.rect.x > self.screenwidth - self.width:
-            self.rect.x = self.screenwidth - self.width
+        if movemode:  # Движение ракетки с помощью клавиатуры
+            if pygame.key.get_pressed()[K_LEFT] or pygame.key.get_pressed()[K_a]:
+                if self.rect.x >= 5:
+                    self.rect.x -= 5
+            if pygame.key.get_pressed()[K_RIGHT] or pygame.key.get_pressed()[K_d]:
+                if self.rect.x <= 695:
+                    self.rect.x += 5

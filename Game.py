@@ -37,7 +37,6 @@ pygame.mouse.set_visible(False)
 pygame.event.set_grab(True)
 clock = pygame.time.Clock()
 fps = 90  # 90 кадров в секунду
-developer = "@Danil_Kabanov"
 score = 0
 volume = 100
 difference = 0
@@ -624,7 +623,7 @@ shift = False
 
 current_speed = ball.speed
 
-while developer == "@Danil_Kabanov":
+while True:
     game_over = False
     nextlevel = False
     speedup = False
